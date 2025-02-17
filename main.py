@@ -27,9 +27,9 @@ if st.button("Get Stock Data"):
         st.subheader(f"Stock Data for {symbol}")
         st.write(df)
 
-        # Sử dụng hàm vnquant_candle_stick để trực quan hóa dữ liệu chứng khoán
+        # Sử dụng hàm candle_stick để trực quan hóa dữ liệu chứng khoán
         st.subheader(f"{symbol} Candlestick Visualization")
-        pl.vnquant_candle_stick(
+        pl.candle_stick(
             data=symbol,
             title=f"{symbol} symbol from {start_date} to {end_date}",
             xlab="Date",
