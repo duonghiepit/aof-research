@@ -5,7 +5,7 @@ import src.utils.utils as utils
 import pandas as pd
 import numpy as np
 
-def _vnquant_candle_stick_source(symbol,
+def _candle_stick_source(symbol,
                                  start_date, end_date,
                                  colors=['blue', 'red'],
                                  width=800, height=600,
@@ -47,7 +47,7 @@ def _vnquant_candle_stick_source(symbol,
 
     fig.show()
 
-def vnquant_candle_stick_source(
+def candle_stick_source(
         symbol,
         start_date, end_date,
         colors=['blue', 'red'],
@@ -70,7 +70,7 @@ def vnquant_candle_stick_source(
         
     Example:
         from vnquant import plot as pl
-        pl.vnquant_candle_stick_source(
+        pl.candle_stick_source(
             symbol='TCB',
             title='TCB symbol from 2022-01-01 to 2022-10-01',
             xlab='Date', ylab='Price',
@@ -264,7 +264,7 @@ def vnquant_candle_stick_source(
 
     fig.show()
 
-def vnquant_candle_stick(data,
+def candle_stick(data,
                         title=None,
                         xlab='Date', ylab='Price',
                         start_date=None, end_date=None,
@@ -290,7 +290,7 @@ def vnquant_candle_stick(data,
         
     Example:
         from vnquant import plot as pl
-        pl.vnquant_candle_stick(
+        pl.candle_stick(
             data='TCB',
             title='TCB symbol from 2022-01-01 to 2022-10-01',
             xlab='Date', ylab='Price',
@@ -302,7 +302,7 @@ def vnquant_candle_stick(data,
     '''
     # Download data from source
     if isinstance(data, str):
-        vnquant_candle_stick_source(symbol=data, start_date=start_date, end_date=end_date,
+        candle_stick_source(symbol=data, start_date=start_date, end_date=end_date,
                                      colors=colors, width=width,
                                      height=height, show_advanced=show_advanced,
                                      data_source=data_source)
