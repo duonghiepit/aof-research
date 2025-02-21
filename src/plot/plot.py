@@ -42,7 +42,24 @@ def _candle_stick_source(symbol,
         xaxis_title='Date',
         width=width,
         height=height,
-        showlegend=False
+        showlegend=True,
+        font=dict(color='red'),
+        #paper_bgcolor='white',  # màu nền toàn bộ biểu đồ
+        plot_bgcolor='white',    # màu nền vùng vẽ
+        xaxis=dict(
+        title=dict(
+            text='<b>Date</b>',       # Thêm thẻ <b> để in đậm
+            font=dict(size=20, color='green')
+        ),
+        tickfont=dict(color='yellow')
+        ),
+        yaxis=dict(
+        title=dict(
+            text='<b>Price</b>',      # Thêm thẻ <b> để in đậm
+            font=dict(size=20, color='green')
+        ),
+        tickfont=dict(color='yellow')
+        ),
     )
 
     fig.show()
@@ -259,10 +276,28 @@ def candle_stick_source(
         xaxis_title='Date',
         width=width,
         height=height,
-        showlegend=True
+        showlegend=True,
+        font=dict(color='red'),
+        #paper_bgcolor='white',  # màu nền toàn bộ biểu đồ
+        plot_bgcolor='white',    # màu nền vùng vẽ
+        xaxis=dict(
+        title=dict(
+            text='<b>Date</b>',       # Thêm thẻ <b> để in đậm
+            font=dict(size=20, color='green')
+        ),
+        tickfont=dict(color='yellow')
+        ),
+        yaxis=dict(
+        title=dict(
+            text='<b>Price</b>',      # Thêm thẻ <b> để in đậm
+            font=dict(size=20, color='green')
+        ),
+        tickfont=dict(color='yellow')
+        ),
     )
 
-    fig.show()
+    #fig.show()
+    return fig
 
 def candle_stick(data,
                         title=None,
@@ -302,7 +337,7 @@ def candle_stick(data,
     '''
     # Download data from source
     if isinstance(data, str):
-        candle_stick_source(symbol=data, start_date=start_date, end_date=end_date,
+        return candle_stick_source(symbol=data, start_date=start_date, end_date=end_date,
                                      colors=colors, width=width,
                                      height=height, show_advanced=show_advanced,
                                      data_source=data_source)
@@ -359,10 +394,29 @@ def candle_stick(data,
                 row=2, col=1)
 
         fig.update_layout(
-            title=title,
-            yaxis_title=xlab,
-            xaxis_title=ylab,
-            showlegend=False
+        title=title,
+        width=width,
+        height=height,
+        showlegend=False,
+        font=dict(color='red'),
+        paper_bgcolor='white',
+        plot_bgcolor='white',
+        xaxis=dict(
+            title=dict(
+                text=f'<b>{xlab}</b>',
+                font=dict(size=20, color='green')
+            ),
+            tickfont=dict(color='yellow')
+            ),
+        yaxis=dict(
+            title=dict(
+                text=f'<b>{ylab}</b>',
+                font=dict(size=20, color='green')
+            ),
+            tickfont=dict(color='yellow')
+            )
         )
 
-        fig.show()
+
+        #fig.show()
+        return fig
