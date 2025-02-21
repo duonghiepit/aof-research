@@ -1,10 +1,15 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 from src.data import DataLoader, FinanceLoader
+from src.explore.vci.listing import Listing
+from src.crawl.scraper import crawl_table_data
 import pandas as pd
+import json
 
 # Khởi tạo FastAPI
 app = FastAPI()
+
+listing = Listing(random_agent=True, show_log=False)
 
 # API để lấy dữ liệu chứng khoán
 @app.get("/get_stock_data/{symbol}")
@@ -83,3 +88,56 @@ async def get_basic_index(symbol: str, start_date: str, end_date: str, data_sour
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=400)
 
+@app.get("/stock-list/all", tags=["Stock List"])
+def get_all_symbols():
+    try:
+        # Trả về JSON dạng record
+        return listing.all_symbols(show_log=False, to_df=True)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/stock-list/industries", tags=["Stock List"])
+def get_symbols_by_industries():
+    try:
+        return listing.symbols_by_industries(show_log=False, to_df=True)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/stock-list/exchange", tags=["Stock List"])
+def get_symbols_by_exchange():
+    try:
+        df = listing.symbols_by_exchange(show_log=False, to_df=True)
+        result = json.loads(df.to_json(orient="records"))
+        return result
+        #return listing.symbols_by_exchange(show_log=False, to_df=True)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/stock-list/icb", tags=["Stock List"])
+def get_industries_icb():
+    try:
+        df = listing.industries_icb(show_log=False, to_df=True)
+        result = json.loads(df.to_json(orient="records"))
+        return result
+        #return listing.industries_icb(show_log=False, to_df=True)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/stock-list/group/{group}", tags=["Stock List"])
+def get_symbols_by_group(group: str):
+    try:
+        return listing.symbols_by_group(group=group, show_log=False, to_df=True)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/crawl_table", tags=["Crawl"])
+def crawl_table(symbol: str = None):
+    if not symbol:
+        return JSONResponse(content={"message": "Vui lòng cung cấp mã chứng khoán."}, status_code=200)
+    try:
+        df, total_pages = crawl_table_data(symbol)
+        data_json = df.to_dict(orient="records")
+        return JSONResponse(content={"data": data_json, "total_pages": total_pages})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
