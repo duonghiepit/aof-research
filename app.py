@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
-from src.data import DataLoader, FinanceLoader
+from src.data import DataLoader
 from src.explore.vci.listing import Listing
 from src.crawl.scraper import crawl_table_data
 import pandas as pd
@@ -40,53 +40,6 @@ async def get_stock_data(symbol: str, start_date: str, end_date: str, data_sourc
         # Trả về lỗi nếu có
         return JSONResponse(content={"error": str(e)}, status_code=400)
 
-# API để lấy báo cáo tài chính doanh nghiệp
-@app.get("/get_finance_business/{symbol}")
-async def get_finance_business(symbol: str, start_date: str, end_date: str, data_source: str = "VND"):
-    try:
-        loader = FinanceLoader(symbol, start_date, end_date, data_source=data_source, minimal=True)
-        data_business = loader.get_business_report()
-        # Chuyển đổi dữ liệu thành JSON
-        data_json = data_business.to_dict(orient="records")
-        return JSONResponse(content={"business_report": data_json})
-    except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=400)
-
-# API để lấy báo cáo tài chính (Financial Report)
-@app.get("/get_finance_report/{symbol}")
-async def get_finance_report(symbol: str, start_date: str, end_date: str, data_source: str = "VND"):
-    try:
-        loader = FinanceLoader(symbol, start_date, end_date, data_source=data_source, minimal=True)
-        data_finan = loader.get_finan_report()
-        # Chuyển đổi dữ liệu thành JSON
-        data_json = data_finan.to_dict(orient="records")
-        return JSONResponse(content={"financial_report": data_json})
-    except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=400)
-
-# API để lấy báo cáo dòng tiền (Cash Flow Report)
-@app.get("/get_cashflow_report/{symbol}")
-async def get_cashflow_report(symbol: str, start_date: str, end_date: str, data_source: str = "VND"):
-    try:
-        loader = FinanceLoader(symbol, start_date, end_date, data_source=data_source, minimal=True)
-        data_cash = loader.get_cashflow_report()
-        # Chuyển đổi dữ liệu thành JSON
-        data_json = data_cash.to_dict(orient="records")
-        return JSONResponse(content={"cashflow_report": data_json})
-    except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=400)
-
-# API để lấy các chỉ số cơ bản của doanh nghiệp
-@app.get("/get_basic_index/{symbol}")
-async def get_basic_index(symbol: str, start_date: str, end_date: str, data_source: str = "VND"):
-    try:
-        loader = FinanceLoader(symbol, start_date, end_date, data_source=data_source, minimal=True)
-        data_basic = loader.get_basic_index()
-        # Chuyển đổi dữ liệu thành JSON
-        data_json = data_basic.to_dict(orient="records")
-        return JSONResponse(content={"basic_index": data_json})
-    except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=400)
 
 @app.get("/stock-list/all", tags=["Stock List"])
 def get_all_symbols():
