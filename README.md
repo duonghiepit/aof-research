@@ -118,7 +118,7 @@ Nếu bạn muốn đóng góp vào dự án này, hãy làm theo các bước s
 
 Nếu có thắc mắc hoặc cần hỗ trợ, vui lòng liên hệ qua:
 - Email: duonghiep59.it@gmail.com
-- GitHub: ([duonghiepit](https://github.com/duonghiepit))
+- GitHub: [duonghiepit](https://github.com/duonghiepit)
 
 ## Giấy phép
 
