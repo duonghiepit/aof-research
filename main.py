@@ -187,8 +187,8 @@ elif navigation == "Crawl":
                         progress_bar.progress((i + 1) / total_pages)
                     
                     df = pd.DataFrame(data)
-                    print(df.describe())
-                    print(df.info())
+                    #print(df.describe())
+                    #print(df.info())
                     st.subheader("Dữ liệu đã truy xuất")
                     st.dataframe(df, use_container_width=True)
                     fig = plc.candle_stick_df(df, title=f"{symbol_crawl} Ticker History")
