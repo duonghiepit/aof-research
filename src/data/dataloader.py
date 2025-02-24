@@ -7,15 +7,12 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 # import sys
-# sys.path.insert(0, '/Users/phamdinhkhanh/Documents/vnquant')
 import pandas as pd
 from src import configs
 from src.data.loader.cafe import DataLoaderCAFE
-from src.data.loader.vnd import DataLoaderVND
 from src.log.logging import logger
 
 
-URL_VND = configs.URL_VND
 API_VNDIRECT = configs.API_VNDIRECT
 URL_CAFE = configs.URL_CAFE
 HEADERS = configs.HEADERS
@@ -52,18 +49,11 @@ class DataLoader():
         self.table_style = table_style
     
     def download(self):
-        if str.lower(self.data_source) == 'vnd':
-            loader = DataLoaderVND(self.symbols, self.start, self.end)
-            stock_data = loader.download()
-        else:
-            loader = DataLoaderCAFE(self.symbols, self.start, self.end)
-            stock_data = loader.download()
+        loader = DataLoaderCAFE(self.symbols, self.start, self.end)
+        stock_data = loader.download()
         
         if self.minimal:
-            if str.lower(self.data_source) == 'vnd':
-                stock_data = stock_data[['code', 'high', 'low', 'open', 'close', 'adjust_close', 'volume_match', 'value_match']]
-            else:
-                stock_data = stock_data[['code', 'high', 'low', 'open', 'close', 'adjust_price', 'volume_match', 'value_match']]
+            stock_data = stock_data[['code', 'high', 'low', 'open', 'close', 'adjust_price', 'volume_match', 'value_match']]
             # Rename columns adjust_close or adjust_price to adjust
             list_columns_names = stock_data.columns.names
             list_tupple_names = stock_data.columns.values
