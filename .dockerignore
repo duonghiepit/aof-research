@@ -1,0 +1,27 @@
+# Bỏ qua thư mục .git (không cần mã nguồn quản lý)
+.git
+
+# Bỏ qua các file/thư mục build tạm
+build/
+dist/
+
+# Bỏ qua môi trường ảo Python
+env/
+venv/
+.venv/
+
+# Bỏ qua thư mục egg-info (tạo ra khi cài đặt / setup python package)
+*.egg-info/
+
+# Bỏ qua các file __pycache__ của Python
+__pycache__/
+
+# Nếu bạn không cần copy thư mục test lên container
+test/
+
+# Bỏ qua file notebook checkpoints
+.ipynb_checkpoints/
+
+# Bỏ qua các file tạm, log, ...
+*.log
+*.tmp
